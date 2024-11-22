@@ -6,6 +6,7 @@ interface Props {
   placeholder?: string;
   className?: string;
   type?: string;
+  disabled?: boolean;
 }
 export default function Input({
   onChange,
@@ -13,6 +14,7 @@ export default function Input({
   value,
   className,
   type = "input",
+  disabled = false,
 }: Props) {
   const [focused, setFocused] = useState(false);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,6 +30,7 @@ export default function Input({
       value={value}
       onFocus={() => setFocused(true)}
       onBlur={() => setFocused(false)}
+      disabled={disabled}
       type={type}
     />
   );

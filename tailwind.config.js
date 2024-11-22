@@ -9,7 +9,8 @@ export default {
       colors: {
         "main-lblue": "#88d3ff",
         "main-blue": "#7ea4d8",
-        "off-blue": "#c8d8ee"
+        "off-blue": "#c8d8ee",
+        "main-dblue": "#4b6a94"
       }
     },
   },

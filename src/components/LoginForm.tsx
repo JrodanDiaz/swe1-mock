@@ -2,6 +2,7 @@ import { useState } from "react";
 import Input from "./Input";
 import Button from "./Button";
 import DefaultProfilePic from "./DefaultProfilePic";
+import { Link } from "react-router-dom";
 
 export default function LoginForm() {
   const [username, setUsername] = useState("");
@@ -25,6 +26,7 @@ export default function LoginForm() {
         </div>
         <Button text="Sign In" />
       </div>
+      <Link to={"/report"}>To Report</Link>
     </>
   );
 }
