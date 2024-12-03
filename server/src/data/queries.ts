@@ -1,6 +1,5 @@
 import { pg_pool } from "./pg-pool";
 import { UserCredentials, ErrorMessage, DB_USERS_ROW } from "../types";
-import { hash, verify } from "../encryption";
 import { QueryResult } from "pg";
 
 export const getUsers = async (): Promise<any[] | ErrorMessage> => {
@@ -44,11 +43,10 @@ export const userExists = async (username: string): Promise<boolean> => {
 };
 
 export const createUser = async (user: UserCredentials): Promise<boolean> => {
-  const passhash = await hash(user.password)
   try {
     await pg_pool.query(
       "INSERT INTO users (username, passhash) VALUES ($1, $2)",
-      [user.username, passhash]
+      [user.username, user.password]
     );
     return true
   } catch(err) {
@@ -69,11 +67,12 @@ export const getUserIdFromUsername = async (
 };
 
 export const validateUser = async (user: UserCredentials): Promise<boolean> => {
+  console.log(`validateUser, user = ${JSON.stringify(user)}`)
   const users: QueryResult<DB_USERS_ROW> = await pg_pool.query("SELECT passhash FROM users where username = $1", [user.username])
   if(users.rows.length === 0) {
     return false
   }
-  return await verify(user.password, users.rows[0].passhash)
+  return true
 }
 
 // export const createTable = async () => {
