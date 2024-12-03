@@ -9,18 +9,29 @@ export default function AdminPage() {
   const handleAction = async (action: boolean, jobUrl: string) => {
     if (!action) {
       console.log("Attempting to delete report");
-      // const success = await deleteReport(jobUrl);
-      // console.log(`success = ${success}`);
 
-      // if (!success) {
-      //   throw new Error("Error occurred while rejecting report");
-      // }
-      deleteReport(jobUrl).then((success) => {
-        if (!success) {
-          throw new Error("Error occurred while rejecting report");
-        }
-        location.reload();
-      });
+      // deleteReport(jobUrl).then((success) => {
+      //   if (!success) {
+      //     throw new Error("Error occurred while rejecting report");
+      //   }
+      //   location.reload();
+      // });
+
+      const timeout = new Promise(() =>
+        setTimeout(() => {
+          location.reload(); // Force refresh after 3 seconds
+        }, 800)
+      );
+
+      Promise.race([deleteReport(jobUrl), timeout])
+        .then((success) => {
+          if (success) {
+            console.log(`deleteReport successful`);
+          }
+        })
+        .catch((error) => {
+          console.log(`Error occurred handling report: ${error}`);
+        });
     }
   };
 
