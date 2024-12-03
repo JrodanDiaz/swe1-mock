@@ -30,6 +30,19 @@ export const getReports = async (): Promise<DB_REPORTS_ROW[] | ErrorMessage> => 
   }
 };
 
+export const deleteReport = async (url: string): Promise<boolean> => {
+  try {
+    await pg_pool.query(
+      "DELETE FROM reports where job_url = $1",
+      [url]
+    );
+    return true
+  } catch(err) {
+    console.log(`err in createUser: ${err}`);
+    return false 
+  }
+};
+
 export const findByUsername = async (username: string): Promise<UserCredentials | ErrorMessage > => {
   try 
   {

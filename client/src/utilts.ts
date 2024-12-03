@@ -1,5 +1,5 @@
-import { implicitLoginSchema } from "./schemas";
-import { UserCredentials } from "./types";
+import { implicitLoginSchema, reportsSchema } from "./schemas";
+import { DB_REPORTS_ROW, UserCredentials } from "./types";
 
 export const loginUser = async (user: UserCredentials) => {
      const response = await fetch("http://localhost:3000/login", {
@@ -19,14 +19,54 @@ export const loginUser = async (user: UserCredentials) => {
   return userData.data.authToken
 }
 
-export const getReports = async () => {
-  const response = await fetch("http://localhost:3000/reports")
-  if(!response.ok) {
-    console.log("error occurred while loggine in");
-    return
+export const getReports = async (): Promise<undefined | DB_REPORTS_ROW[]> => {
+  try {
+
+    const response = await fetch("http://localhost:3000/reports")
+    if(!response.ok) {
+      console.log("error occurred while loggine in");
+      return
+    }
+    const parsedData = reportsSchema.safeParse(await response.json())
+
+    if(!parsedData.success) {
+      console.log(`Error parsing reports data: ${parsedData.error}`);
+      return
+    }
+
+    return parsedData.data
+
+  } catch(err) {
+    console.log(`Error in getReports: ${err}`);
   }
-  const data = await response.json()
-  console.log(data);
-  console.log(JSON.stringify(data));
   
+}
+
+export const deleteReport = async (url: string): Promise<boolean> => {
+  console.log("DeleteReport executed");
+  
+  try {
+
+    const response = await fetch("http://localhost:3000/reports", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({url: url}),
+      credentials: "include"
+  });
+  
+  if(!response.ok) {
+    console.log("Error in deleteReport");
+    return false
+  }
+  
+  console.log("response is ok, so return true......");
+  
+  return true
+} catch(err) {
+  console.log(`Error in deleteReport: ${err}`);
+  return false
+  
+}
 }

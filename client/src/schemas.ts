@@ -18,3 +18,11 @@ export const implicitLoginSchema = z.object({
   username: z.string(),
 }).or(serverErrorSchema)
 
+export const reportSchema = z.object({
+  id: z.number(),
+  job_url: z.string(),
+  report_type: z.string(),
+  report_reason: z.string()
+})
+
+export const reportsSchema = z.array(reportSchema)

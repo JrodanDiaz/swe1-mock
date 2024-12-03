@@ -8,7 +8,7 @@ import { spotifyLoginHandler, spotifyCallbackHandler } from "./handlers/spotifyH
 import dotenv from "dotenv"
 import { implicitLoginHandler } from "./handlers/implicit_login";
 import { getTokenHandler } from "./auth/utils";
-import { getReportsHandler } from "./handlers/reportsHandler";
+import { deleteReportHandler, getReportsHandler } from "./handlers/reportsHandler";
 
 dotenv.config()
 const app = express();
@@ -16,12 +16,23 @@ const port = 3000;
 
 var corsOptions = {
   origin: 'http://localhost:5173',
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST', 'DELETE'],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization']
 }
 
+
+
+app.options('*', cors(corsOptions));
 app.use(cors(corsOptions))
+
+app.use((req, res, next) => {
+  console.log("Request Headers: ", req.headers);
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  next();
+});
+
 app.use(express.json())
 app.use(cookieParser())
 
@@ -36,6 +47,7 @@ app.get("/users", getUsersHandler)
 app.post("/users", clearUsersHandler)
 
 app.get("/reports", getReportsHandler)
+app.delete("/reports", deleteReportHandler)
 
 app.post("/register", registerHandler)
 app.post("/login", loginHandler)
