@@ -2,18 +2,20 @@ import { useState } from "react";
 import Input from "./Input";
 import Button from "./Button";
 import DefaultProfilePic from "./DefaultProfilePic";
-import { Link } from "react-router-dom";
-import { loginUser } from "../utilts";
+import { Link, useNavigate } from "react-router-dom";
+import { getReports, loginUser } from "../utilts";
 
 export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     loginUser({ username: username, password: password })
       .then((user) => {
         console.log(`Succesfully logged in user: ${user}`);
+        navigate("/admin");
       })
       .catch((err) => {
         console.log(`Error: ${err}`);
@@ -46,6 +48,8 @@ export default function LoginForm() {
         </form>
       </div>
       <Link to={"/report"}>To Report</Link>
+      <Link to={"/admin"}>To Admin</Link>
+      <button onClick={getReports}>GET REPORTS</button>
     </>
   );
 }

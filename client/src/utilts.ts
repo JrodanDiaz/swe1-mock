@@ -18,3 +18,15 @@ export const loginUser = async (user: UserCredentials) => {
   if("errorMessage" in userData.data) throw new Error(userData.data.errorMessage)
   return userData.data.authToken
 }
+
+export const getReports = async () => {
+  const response = await fetch("http://localhost:3000/reports")
+  if(!response.ok) {
+    console.log("error occurred while loggine in");
+    return
+  }
+  const data = await response.json()
+  console.log(data);
+  console.log(JSON.stringify(data));
+  
+}

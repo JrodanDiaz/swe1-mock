@@ -1,5 +1,5 @@
 import { pg_pool } from "./pg-pool";
-import { UserCredentials, ErrorMessage, DB_USERS_ROW } from "../types";
+import { UserCredentials, ErrorMessage, DB_USERS_ROW, DB_REPORTS_ROW } from "../types";
 import { QueryResult } from "pg";
 
 export const getUsers = async (): Promise<any[] | ErrorMessage> => {
@@ -12,6 +12,20 @@ export const getUsers = async (): Promise<any[] | ErrorMessage> => {
   catch(err) 
   {
     console.log(`err in getUsers: ${err}`);
+    return {errorMessage: "Internal Server Error"}
+  }
+};
+
+export const getReports = async (): Promise<DB_REPORTS_ROW[] | ErrorMessage> => {
+  try 
+  {
+    const reports: QueryResult<DB_REPORTS_ROW> = await pg_pool.query("SELECT * FROM public.reports");
+    if(reports.rows.length === 0) return {errorMessage: "Users table is empty"}
+    return reports.rows;
+  } 
+  catch(err) 
+  {
+    console.log(`err in getReports: ${err}`);
     return {errorMessage: "Internal Server Error"}
   }
 };
