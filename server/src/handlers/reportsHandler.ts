@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { deleteReport, getReports } from "../data/queries";
+import { createReport, deleteReport, getReports } from "../data/queries";
+import { reportSchema } from "../schemas";
 
 export const getReportsHandler = async (req: Request, res: Response) => {
     const reports = await getReports();
@@ -21,4 +22,24 @@ export const deleteReportHandler = async (req: Request, res: Response) => {
        return 
     }
     res.status(200)
+}
+
+export const submitReportHandler = async (req: Request, res: Response) => {
+    const {body} = req
+
+    const parsedReport = reportSchema.safeParse(body)
+
+    if(!parsedReport.success) {
+        console.log(`Error parsing report: ${parsedReport.error}`);
+        res.status(400).send("Error Parsing JSON")
+        return
+    }
+
+    const success = await createReport(parsedReport.data)
+    if(!success) {
+        res.status(400).send("Internal Server Error")
+        return
+    }
+    res.status(200).send("Success")
+
 }

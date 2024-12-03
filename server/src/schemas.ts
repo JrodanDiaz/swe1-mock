@@ -9,13 +9,13 @@ export const authCookiesSchema = z.object({
   authToken: z.string().min(1),
 })
 
-export const spotifyTokenSchema = z.object({
-  access_token: z.string().min(1),
-  token_type: z.string(),
-  expires_in: z.string().or(z.number()),
-  refresh_token: z.string(),
-  scope: z.string(),
-});
+export const reportSchema = z.object({
+  job_url: z.string(),
+  report_type: z.string(),
+  report_reason: z.string()
+})
 
-export type SpotifyAuthRes = z.infer<typeof spotifyTokenSchema>
+
+
+
   

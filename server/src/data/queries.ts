@@ -1,5 +1,5 @@
 import { pg_pool } from "./pg-pool";
-import { UserCredentials, ErrorMessage, DB_USERS_ROW, DB_REPORTS_ROW } from "../types";
+import { UserCredentials, ErrorMessage, DB_USERS_ROW, DB_REPORTS_ROW, Report } from "../types";
 import { QueryResult } from "pg";
 
 export const getUsers = async (): Promise<any[] | ErrorMessage> => {
@@ -42,6 +42,17 @@ export const deleteReport = async (url: string): Promise<boolean> => {
     return false 
   }
 };
+
+export const createReport = async(report: Report): Promise<boolean> => {
+  try {
+    await pg_pool.query("INSERT INTO reports values (job_url, report_type, report_reason) VALUES ($1, $2, $3)", [report.job_url, report.report_type, report.report_reason])
+    return true
+  } catch(err) {
+    console.log(`Error in createReport: ${err}`);
+    return false
+    
+  }
+} 
 
 export const findByUsername = async (username: string): Promise<UserCredentials | ErrorMessage > => {
   try 

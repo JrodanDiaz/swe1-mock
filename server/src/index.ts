@@ -4,7 +4,6 @@ import cors from "cors"
 import { registerHandler } from "./handlers/register";
 import { clearUsersHandler, getUsersHandler } from "./handlers/userHandler";
 import { loginHandler } from "./handlers/login";
-import { spotifyLoginHandler, spotifyCallbackHandler } from "./handlers/spotifyHandler";
 import dotenv from "dotenv"
 import { implicitLoginHandler } from "./handlers/implicit_login";
 import { getTokenHandler } from "./auth/utils";
@@ -26,12 +25,12 @@ var corsOptions = {
 app.options('*', cors(corsOptions));
 app.use(cors(corsOptions))
 
-app.use((req, res, next) => {
-  console.log("Request Headers: ", req.headers);
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log("Request Headers: ", req.headers);
+//   res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+//   res.setHeader("Access-Control-Allow-Credentials", "true");
+//   next();
+// });
 
 app.use(express.json())
 app.use(cookieParser())
@@ -52,9 +51,6 @@ app.delete("/reports", deleteReportHandler)
 app.post("/register", registerHandler)
 app.post("/login", loginHandler)
 app.get("/implicit_login", implicitLoginHandler)
-
-app.get("/spotify", spotifyLoginHandler)
-app.get('/auth/callback', spotifyCallbackHandler )
 
 
 app.listen(port, () => {
