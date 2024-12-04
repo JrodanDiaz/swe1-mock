@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { deleteReport, getReports, getUsername } from "../utilts";
+import { banUser, deleteReport, getReports, getUsername } from "../utilts";
 import { DB_REPORTS_ROW } from "../types";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
@@ -30,6 +30,20 @@ export default function AdminPage() {
           console.log(`Error occurred handling report: ${error}`);
         });
     }
+  };
+
+  const handleBanUser = (user: string) => {
+    banUser(user)
+      .then((success) => {
+        if (success) {
+          console.log("successfully banned user");
+        } else {
+          console.log("failed to ban user");
+        }
+      })
+      .catch((err) => {
+        console.log(`Error while banning user: ${err}`);
+      });
   };
 
   useEffect(() => {
@@ -75,7 +89,10 @@ export default function AdminPage() {
               </p>
               {displayBan === index ? (
                 <div className=" flex justify-between">
-                  <button className="text-xl text-orange-500">
+                  <button
+                    onClick={() => handleBanUser(report.reporter)}
+                    className="text-xl text-orange-500"
+                  >
                     Ban User {report.reporter}?
                   </button>
                   <button className="text-xl text-red-700" onClick={() => setDisplayBan(-1)}>

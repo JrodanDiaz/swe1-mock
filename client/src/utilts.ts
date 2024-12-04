@@ -1,3 +1,4 @@
+import { Meta } from "react-router-dom";
 import { implicitLoginSchema, reportsSchema, tokenResponseSchema } from "./schemas";
 import { DB_REPORTS_ROW, Report, UserCredentials } from "./types";
 
@@ -113,6 +114,30 @@ export const submitReport = async (report: Report): Promise<boolean> => {
   } catch(err) {
     console.log(`Error in submitReport: ${err}`);
     return false
+  }
+}
+
+
+export const banUser = async (username: string): Promise<boolean> => {
+  try {
+
+    const response = await fetch("http://localhost:3000/users/ban",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({username: username}),
+        credentials: "include",
+        
+      }
+    )
+    return response.ok
+    
+  } catch(err) {
+    console.log(`Ban User Error: ${err}`);
+    return false
+    
   }
 }
 

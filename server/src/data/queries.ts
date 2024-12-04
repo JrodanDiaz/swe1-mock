@@ -114,15 +114,16 @@ export const validateUser = async (user: UserCredentials): Promise<{authorized: 
   return {authorized: users.rows[0].passhash === user.password, banned: users.rows[0].banned === true}
 }
 
-// export const createTable = async () => {
-//   try {
-//     const res = await pg_pool.query(
-//       "CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, username VARCHAR(100) NOT NULL, passhash VARCHAR(100) NOT NULL)"
-//     );
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
+export const banUser = async (username: string): Promise<boolean> => {
+  try {
+    await pg_pool.query("UPDATE users SET banned = TRUE WHERE username = $1", [username])
+    return true
+
+  } catch(err) {
+    console.log(`Error banning user: ${err}`);
+    return false
+  }
+}
 
 export const clearTable = async () => {
   try {

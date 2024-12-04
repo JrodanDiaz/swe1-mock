@@ -2,7 +2,7 @@ import express from "express";
 import cookieParser from 'cookie-parser'
 import cors from "cors"
 import { registerHandler } from "./handlers/register";
-import { clearUsersHandler, getUsersHandler } from "./handlers/userHandler";
+import { banUserHandler, clearUsersHandler, getUsersHandler } from "./handlers/userHandler";
 import { loginHandler } from "./handlers/login";
 import dotenv from "dotenv"
 import { implicitLoginHandler } from "./handlers/implicit_login";
@@ -43,6 +43,7 @@ app.get("/", (req, res) => {
 app.get("/auth/getToken", getTokenHandler)
 
 app.get("/users", getUsersHandler)
+app.post("/users/ban", banUserHandler)
 
 app.get("/reports", getReportsHandler)
 app.post("/reports", submitReportHandler)
