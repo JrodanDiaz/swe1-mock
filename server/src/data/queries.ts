@@ -125,6 +125,14 @@ export const banUser = async (username: string): Promise<boolean> => {
   }
 }
 
+export const removeReportsFromUser = async (username: string) => {
+  try {
+    await pg_pool.query("DELETE FROM reports WHERE reporter = $1", [username])
+  } catch(err) {
+    console.log(`Error removing reports from user: ${err}`);
+  }
+}
+
 export const clearTable = async () => {
   try {
     await pg_pool.query("DELETE FROM users");

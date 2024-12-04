@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { banUser, clearTable, getUsers } from "../data/queries";
+import { banUser, clearTable, getUsers, removeReportsFromUser } from "../data/queries";
 
 export const getUsersHandler = async (req: Request, res: Response) => {
     const users = await getUsers();
@@ -23,6 +23,7 @@ export const banUserHandler = async (req: Request, res: Response) => {
     console.log(`banUserHandler success: ${success}`);
     
     if(success) {
+        await removeReportsFromUser(body.username)
         res.status(200).send("Successfully banned user")
     }
     else {

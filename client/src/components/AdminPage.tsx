@@ -37,6 +37,9 @@ export default function AdminPage() {
       .then((success) => {
         if (success) {
           console.log("successfully banned user");
+          if (reports && reports.length > 0) {
+            setReports(reports.filter((report) => report.reporter !== user));
+          }
         } else {
           console.log("failed to ban user");
         }
