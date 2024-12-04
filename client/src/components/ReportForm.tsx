@@ -21,6 +21,7 @@ export default function ReportForm({
 }: Props) {
   const [selectedOption, setSelectedOption] = useState("");
   const [response, setResponse] = useState("");
+  const [otherType, setOtherType] = useState("");
 
   const onReportReasonChange = (response: string) => {
     setResponse(response);
@@ -28,7 +29,8 @@ export default function ReportForm({
   };
 
   const onOtherReasonChange = (reason: string) => {
-    setSelectedOption(reason);
+    // setSelectedOption(reason);
+    setOtherType(reason);
     setResponse(reason);
     setReport((prev) => ({ ...prev, report_type: reason }));
   };
@@ -38,6 +40,7 @@ export default function ReportForm({
 
     setSelectedOption(e.target.value);
     setResponse("");
+    setOtherType("");
     setReport((prev) => ({ ...prev, [field]: e.target.value }));
     console.log("ran setReport");
   };
@@ -85,7 +88,8 @@ export default function ReportForm({
           <Input
             // onChange={setResponse}
             onChange={onOtherReasonChange}
-            value={response}
+            // value={response}
+            value={otherType}
             placeholder="Enter response here."
             disabled={notOtherOptions.some(notOther) || selectedOption === ""}
             className={`${

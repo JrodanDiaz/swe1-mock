@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
-import { submitReport, validateURL } from "../utilts";
+import { getJWT, getUsername, submitReport, validateURL } from "../utilts";
 import BlueBox from "./BlueBox";
 import Navbar from "./Navbar";
 import ReportForm from "./ReportForm";
 import { Report } from "../types";
+import { useNavigate } from "react-router-dom";
 
 export default function ReportPage() {
+  const navigate = useNavigate();
+  const username = getUsername();
+  const jwt = getJWT();
   const options = ["Ghost Job", "Scam Job", "Old/Deprecated Listing"];
   const question1 = "1. What kind of report are you filling?";
   const question2 = "2. Describe the reason for the report";
@@ -20,6 +24,12 @@ export default function ReportPage() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
+    if (!jwt && !username) {
+      navigate("/");
+    }
+  }, []);
+
+  useEffect(() => {
     console.log(`report changed: ${JSON.stringify(report)}`);
   }, [report]);
 
@@ -29,6 +39,12 @@ export default function ReportPage() {
     if (!isValidURL) {
       setReportSuccess(false);
       setMessage("Please enter a valid url");
+      return;
+    }
+
+    if (report.report_type === "other" || report.report_type === "") {
+      setReportSuccess(false);
+      setMessage("Please enter a valid report reason.");
       return;
     }
     console.log("Attempting to submit report");

@@ -43,7 +43,6 @@ app.get("/", (req, res) => {
 app.get("/auth/getToken", getTokenHandler)
 
 app.get("/users", getUsersHandler)
-app.post("/users", clearUsersHandler)
 
 app.get("/reports", getReportsHandler)
 app.post("/reports", submitReportHandler)
@@ -51,7 +50,7 @@ app.delete("/reports", deleteReportHandler)
 
 app.post("/register", registerHandler)
 app.post("/login", loginHandler)
-app.get("/implicit_login", implicitLoginHandler)
+// app.get("/implicit_login", implicitLoginHandler)
 
 
 app.listen(port, () => {
