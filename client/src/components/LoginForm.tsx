@@ -47,9 +47,6 @@ export default function LoginForm() {
           <Button text="Sign In" submit={true} />
         </form>
       </div>
-      <Link to={"/report"}>To Report</Link>
-      <Link to={"/admin"}>To Admin</Link>
-      <button onClick={getReports}>GET REPORTS</button>
     </>
   );
 }

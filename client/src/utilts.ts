@@ -85,3 +85,9 @@ export const submitReport = async (report: Report): Promise<boolean> => {
     return false
   }
 }
+
+export const validateURL = (url: string): boolean => {
+  const regex = /^https:\/\/www\.linkedin\.com\/jobs\/view\//;
+
+  return regex.test(url)
+}

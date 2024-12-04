@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { submitReport } from "../utilts";
+import { submitReport, validateURL } from "../utilts";
 import BlueBox from "./BlueBox";
 import Navbar from "./Navbar";
 import ReportForm from "./ReportForm";
@@ -17,6 +17,7 @@ export default function ReportPage() {
   };
   const [report, setReport] = useState<Report>(defaultReport);
   const [reportSuccess, setReportSuccess] = useState<boolean | undefined>(undefined);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     console.log(`report changed: ${JSON.stringify(report)}`);
@@ -24,15 +25,23 @@ export default function ReportPage() {
 
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const isValidURL = validateURL(report.job_url);
+    if (!isValidURL) {
+      setReportSuccess(false);
+      setMessage("Please enter a valid url");
+      return;
+    }
     console.log("Attempting to submit report");
     const success = await submitReport(report);
     if (success) {
       console.log("Successfully submitted report");
       setReport(defaultReport);
       setReportSuccess(true);
+      setMessage("Report submitted. Thank you for your feedback.");
     } else {
       console.log("Error while submitting report");
       setReportSuccess(false);
+      setMessage("Error while submitting report");
     }
   };
 
@@ -41,12 +50,10 @@ export default function ReportPage() {
       <div className="flex flex-col justify-center items-center gap-4">
         <Navbar />
         {reportSuccess === true && (
-          <p className=" text-center text-green-600 text-xl">
-            Successfully submitted report. Thank you for your feedback.
-          </p>
+          <p className=" text-center text-green-600 text-xl">{message}</p>
         )}
         {reportSuccess === false && (
-          <p className="text-center text-red-600 text-xl">Error while submitting report.</p>
+          <p className="text-center text-red-600 text-xl">{message}</p>
         )}
         <form onSubmit={handleSubmit} className=" w-4/6 flex flex-col gap-3">
           <BlueBox className="text-center py-8">
