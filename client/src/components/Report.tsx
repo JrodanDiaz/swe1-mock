@@ -15,6 +15,7 @@ export default function ReportPage() {
   const question2 = "2. Describe the reason for the report";
   const question3 = "3. Enter the job URL";
   const defaultReport: Report = {
+    reporter: username,
     job_url: "",
     report_reason: "",
     report_type: "",

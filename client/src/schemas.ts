@@ -20,6 +20,7 @@ export const implicitLoginSchema = z.object({
 
 export const reportSchema = z.object({
   id: z.number(),
+  reporter: z.string(),
   job_url: z.string(),
   report_type: z.string(),
   report_reason: z.string()

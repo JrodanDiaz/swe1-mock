@@ -21,6 +21,7 @@ export type DB_REPORTS_ROW = {
 }
 
 export type Report = {
+    reporter: string,
     job_url: string,
     report_type: string,
     report_reason: string

@@ -55,6 +55,7 @@ export default function AdminPage() {
               <p>Job Url: {report.job_url}</p>
               <p>Report Type: {report.report_type}</p>
               <p>Report Reason: {report.report_reason}</p>
+              <p>Submitted by: {report.reporter}</p>
               <div className="flex justify-between">
                 <button
                   onClick={() => handleAction(false, report.job_url)}

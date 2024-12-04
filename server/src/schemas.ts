@@ -10,6 +10,7 @@ export const authCookiesSchema = z.object({
 })
 
 export const reportSchema = z.object({
+  reporter: z.string(),
   job_url: z.string(),
   report_type: z.string(),
   report_reason: z.string()

@@ -10,10 +10,10 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS reports (
     id SERIAL PRIMARY KEY,
+    reporter VARCHAR(255) NOT NULL,
     job_url VARCHAR(255) UNIQUE NOT NULL,
     report_type VARCHAR(255),
     report_reason VARCHAR(255)
-
 );
 
 \echo 'Finished creating users table'
