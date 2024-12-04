@@ -5,6 +5,7 @@ import App from "./App.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ReportPage from "./components/Report.tsx";
 import AdminPage from "./components/AdminPage.tsx";
+import { UserContextProvider } from "./components/UserContext.tsx";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <UserContextProvider>
+      <RouterProvider router={router} />
+    </UserContextProvider>
   </StrictMode>
 );

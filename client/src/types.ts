@@ -15,3 +15,8 @@ export type Report = {
     report_type: string,
     report_reason: string
 }
+
+export type User = {
+    username: string,
+    isAdmin: boolean
+}

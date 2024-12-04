@@ -4,10 +4,12 @@ import Button from "./Button";
 import DefaultProfilePic from "./DefaultProfilePic";
 import { Link, useNavigate } from "react-router-dom";
 import { getJWT, getReports, loginUser, setJWT } from "../utilts";
+import { useSetUser } from "./UserContext";
 
 export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const updateUserContext = useSetUser();
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
@@ -17,7 +19,8 @@ export default function LoginForm() {
     loginUser({ username: username, password: password })
       .then((token) => {
         console.log(`Succesfully logged in user: ${token}`);
-        setJWT(token);
+        setJWT(token, username);
+        updateUserContext({ username: username, isAdmin: username === "jordan" });
         navigate("/admin");
       })
       .catch((err) => {

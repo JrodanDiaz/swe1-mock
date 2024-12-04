@@ -114,10 +114,18 @@ export const validateURL = (url: string): boolean => {
   return regex.test(url)
 }
 
-export const setJWT = (jwt: string) => {
+export const setJWT = (jwt: string, username: string) => {
   localStorage.setItem("token", jwt)
+  localStorage.setItem("username", username)
+
 }
 
 export const getJWT = (): string | null => {
   return localStorage.getItem("token")
+}
+
+export const getUsername = (): string => {
+  const username = localStorage.getItem("username")
+  if(username === null) return ""
+  return username
 }
