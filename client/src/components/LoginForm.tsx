@@ -2,15 +2,16 @@ import { useState } from "react";
 import Input from "./Input";
 import Button from "./Button";
 import DefaultProfilePic from "./DefaultProfilePic";
-import { Link, useNavigate } from "react-router-dom";
-import { getJWT, getReports, loginUser, registerUser, setJWT } from "../utilts";
-import { useSetUser } from "./UserContext";
+import { useNavigate } from "react-router-dom";
+import { loginUser, registerUser, setJWT } from "../utilts";
+import { useSetUser, useUser } from "./UserContext";
 
 export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [registerMode, setRegisterMode] = useState(false);
+  const user = useUser();
   const updateUserContext = useSetUser();
   const navigate = useNavigate();
 
@@ -25,7 +26,11 @@ export default function LoginForm() {
           return;
         }
         setJWT(result.token, username);
-        updateUserContext({ username: username, isAdmin: username === "admin" });
+        updateUserContext({
+          username: username,
+          isAdmin: username === "admin",
+          reportCount: user.reportCount,
+        });
         navigate("/admin");
       })
       .catch((err) => {
@@ -45,7 +50,11 @@ export default function LoginForm() {
         }
         console.log(`Succesfully registered user: ${result.token}`);
         setJWT(result.token, username);
-        updateUserContext({ username: username, isAdmin: false });
+        updateUserContext({
+          username: username,
+          isAdmin: false,
+          reportCount: user.reportCount,
+        });
       })
       .catch((err) => {
         console.log(`Error: ${err}`);

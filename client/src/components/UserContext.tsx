@@ -11,13 +11,18 @@ export const UserContextProvider = ({ children }: { children: React.ReactNode })
   const [user, setUser] = useState({
     username: "",
     isAdmin: false,
+    reportCount: 0,
   });
 
   const jwt = getJWT();
   const username = getUsername();
 
   useEffect(() => {
-    setUser((prev) => ({ username: username, isAdmin: !!jwt && username === "admin" }));
+    setUser((prev) => ({
+      username: username,
+      isAdmin: !!jwt && username === "admin",
+      reportCount: prev.reportCount,
+    }));
   }, []);
 
   return (

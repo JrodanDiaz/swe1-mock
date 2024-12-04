@@ -5,10 +5,13 @@ import Navbar from "./Navbar";
 import ReportForm from "./ReportForm";
 import { Report } from "../types";
 import { useNavigate } from "react-router-dom";
+import { useSetUser, useUser } from "./UserContext";
 
 export default function ReportPage() {
   const navigate = useNavigate();
   const username = getUsername();
+  const userContext = useUser();
+  const updateUserContext = useSetUser();
   const jwt = getJWT();
   const options = ["Ghost Job", "Scam Job", "Old/Deprecated Listing"];
   const question1 = "1. What kind of report are you filling?";
@@ -37,6 +40,11 @@ export default function ReportPage() {
 
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (userContext.reportCount >= 3) {
+      setReportSuccess(false);
+      setMessage("Error: Too many reports submitted at once");
+      return;
+    }
     const isValidURL = validateURL(report.job_url);
     if (!isValidURL) {
       setReportSuccess(false);
@@ -56,6 +64,7 @@ export default function ReportPage() {
       setReport(defaultReport);
       setReportSuccess(true);
       setMessage("Report submitted. Thank you for your feedback.");
+      updateUserContext({ ...userContext, reportCount: userContext.reportCount + 1 });
     } else {
       console.log("Error while submitting report");
       setReportSuccess(false);
