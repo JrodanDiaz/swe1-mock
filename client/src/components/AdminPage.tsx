@@ -108,7 +108,7 @@ export default function AdminPage() {
                     onClick={() => handleAction(false, report.job_url)}
                     className="text-xl text-green-700"
                   >
-                    Flag as Suspicious
+                    Flag For Deletion
                   </button>
                   <button
                     onClick={() => handleAction(false, report.job_url)}
@@ -118,20 +118,6 @@ export default function AdminPage() {
                   </button>
                 </div>
               )}
-              {/* <div className="flex justify-between">
-                <button
-                  onClick={() => handleAction(false, report.job_url)}
-                  className="text-xl text-green-700"
-                >
-                  Flag as Suspicious
-                </button>
-                <button
-                  onClick={() => handleAction(false, report.job_url)}
-                  className="text-xl text-red-700"
-                >
-                  Ignore
-                </button>
-              </div> */}
             </div>
           ))}
       </div>
