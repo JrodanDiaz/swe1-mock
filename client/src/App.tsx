@@ -30,7 +30,7 @@ function App() {
             to={"/admin"}
             className="border-2 border-black bg-main-lblue hover:bg-main-blue rounded-full w-40 text-center px-5 py-3"
           >
-            To Admin
+            Review Reports
           </Link>
         )}
       </div>

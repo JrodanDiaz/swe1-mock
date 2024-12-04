@@ -1,25 +1,17 @@
 import { useEffect, useState } from "react";
-import { deleteReport, getReports } from "../utilts";
+import { deleteReport, getReports, getUsername } from "../utilts";
 import { DB_REPORTS_ROW } from "../types";
 import Navbar from "./Navbar";
-import { useUser } from "./UserContext";
 import { useNavigate } from "react-router-dom";
 
 export default function AdminPage() {
-  const user = useUser();
+  const username = getUsername();
   const navigate = useNavigate();
   const [reports, setReports] = useState<DB_REPORTS_ROW[] | undefined>(undefined);
 
   const handleAction = async (action: boolean, jobUrl: string) => {
     if (!action) {
       console.log("Attempting to delete report");
-
-      // deleteReport(jobUrl).then((success) => {
-      //   if (!success) {
-      //     throw new Error("Error occurred while rejecting report");
-      //   }
-      //   location.reload();
-      // });
 
       const timeout = new Promise(() =>
         setTimeout(() => {
@@ -40,7 +32,7 @@ export default function AdminPage() {
   };
 
   useEffect(() => {
-    if (!user.isAdmin) {
+    if (username !== "admin") {
       navigate("/");
     }
     const fetchReports = async () => {
