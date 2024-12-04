@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { createReport, deleteReport, getReports } from "../data/queries";
 import { reportSchema } from "../schemas";
+import { log } from "console";
 
 export const getReportsHandler = async (req: Request, res: Response) => {
     const reports = await getReports();
@@ -37,9 +38,11 @@ export const submitReportHandler = async (req: Request, res: Response) => {
 
     const success = await createReport(parsedReport.data)
     if(!success) {
+        console.log(`Error creating report`)
         res.status(400).send("Internal Server Error")
         return
     }
+    console.log("succesfully created report")
     res.status(200).send("Success")
 
 }

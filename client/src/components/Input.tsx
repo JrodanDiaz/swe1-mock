@@ -1,7 +1,7 @@
 import { SetStateAction, useState } from "react";
 
 interface Props {
-  onChange: React.Dispatch<SetStateAction<any>>;
+  onChange: React.Dispatch<SetStateAction<any>> | ((arg: any) => void);
   value: string | number;
   placeholder?: string;
   className?: string;

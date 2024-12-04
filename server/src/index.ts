@@ -7,7 +7,7 @@ import { loginHandler } from "./handlers/login";
 import dotenv from "dotenv"
 import { implicitLoginHandler } from "./handlers/implicit_login";
 import { getTokenHandler } from "./auth/utils";
-import { deleteReportHandler, getReportsHandler } from "./handlers/reportsHandler";
+import { deleteReportHandler, getReportsHandler, submitReportHandler } from "./handlers/reportsHandler";
 
 dotenv.config()
 const app = express();
@@ -46,6 +46,7 @@ app.get("/users", getUsersHandler)
 app.post("/users", clearUsersHandler)
 
 app.get("/reports", getReportsHandler)
+app.post("/reports", submitReportHandler)
 app.delete("/reports", deleteReportHandler)
 
 app.post("/register", registerHandler)

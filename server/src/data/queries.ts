@@ -45,7 +45,7 @@ export const deleteReport = async (url: string): Promise<boolean> => {
 
 export const createReport = async(report: Report): Promise<boolean> => {
   try {
-    await pg_pool.query("INSERT INTO reports values (job_url, report_type, report_reason) VALUES ($1, $2, $3)", [report.job_url, report.report_type, report.report_reason])
+    await pg_pool.query("INSERT INTO reports (job_url, report_type, report_reason) VALUES ($1, $2, $3)", [report.job_url, report.report_type, report.report_reason])
     return true
   } catch(err) {
     console.log(`Error in createReport: ${err}`);
