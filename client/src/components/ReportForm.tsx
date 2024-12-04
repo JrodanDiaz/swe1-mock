@@ -29,7 +29,8 @@ export default function ReportForm({
 
   const onOtherReasonChange = (reason: string) => {
     setSelectedOption(reason);
-    setReport((prev) => ({ ...prev, [field]: reason }));
+    setResponse(reason);
+    setReport((prev) => ({ ...prev, report_type: reason }));
   };
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,6 +41,9 @@ export default function ReportForm({
     setReport((prev) => ({ ...prev, [field]: e.target.value }));
     console.log("ran setReport");
   };
+
+  const notOther = (option: string) => selectedOption === option;
+  const notOtherOptions = ["Ghost Job", "Old/Deprecated Listing", "Scam Job"];
 
   if (!options) {
     return (
@@ -83,7 +87,7 @@ export default function ReportForm({
             onChange={onOtherReasonChange}
             value={response}
             placeholder="Enter response here."
-            disabled={selectedOption !== "other"}
+            disabled={notOtherOptions.some(notOther) || selectedOption === ""}
             className={`${
               selectedOption === "other"
                 ? ""

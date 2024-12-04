@@ -11,6 +11,10 @@ VALUES
         'Shrekt123'
     ),
     (
+        'admin',
+        'admin'
+    ),
+    (
         'bourbon',
         'Necromancy'
     ),

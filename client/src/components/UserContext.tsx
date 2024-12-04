@@ -17,7 +17,7 @@ export const UserContextProvider = ({ children }: { children: React.ReactNode })
   const username = getUsername();
 
   useEffect(() => {
-    setUser((prev) => ({ username: username, isAdmin: !!jwt && username === "jordan" }));
+    setUser((prev) => ({ username: username, isAdmin: !!jwt && username === "admin" }));
   }, []);
 
   return (

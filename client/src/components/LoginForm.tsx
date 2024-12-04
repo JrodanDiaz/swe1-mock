@@ -20,7 +20,7 @@ export default function LoginForm() {
       .then((token) => {
         console.log(`Succesfully logged in user: ${token}`);
         setJWT(token, username);
-        updateUserContext({ username: username, isAdmin: username === "jordan" });
+        updateUserContext({ username: username, isAdmin: username === "admin" });
         navigate("/admin");
       })
       .catch((err) => {

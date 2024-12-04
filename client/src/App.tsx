@@ -17,12 +17,14 @@ function App() {
             Currently Logged In as <span className=" font-semibold">{user.username}</span>
           </p>
         )}
-        <Link
-          to={"/report"}
-          className="border-2 border-black bg-main-lblue hover:bg-main-blue rounded-full w-40 text-center px-5 py-3"
-        >
-          To Report
-        </Link>
+        {user.username && (
+          <Link
+            to={"/report"}
+            className="border-2 border-black bg-main-lblue hover:bg-main-blue rounded-full w-40 text-center px-5 py-3"
+          >
+            Report a Job
+          </Link>
+        )}
         {user.isAdmin && (
           <Link
             to={"/admin"}
