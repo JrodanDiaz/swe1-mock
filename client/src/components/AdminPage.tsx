@@ -2,8 +2,12 @@ import { useEffect, useState } from "react";
 import { deleteReport, getReports } from "../utilts";
 import { DB_REPORTS_ROW } from "../types";
 import Navbar from "./Navbar";
+import { useUser } from "./UserContext";
+import { useNavigate } from "react-router-dom";
 
 export default function AdminPage() {
+  const user = useUser();
+  const navigate = useNavigate();
   const [reports, setReports] = useState<DB_REPORTS_ROW[] | undefined>(undefined);
 
   const handleAction = async (action: boolean, jobUrl: string) => {
@@ -36,6 +40,9 @@ export default function AdminPage() {
   };
 
   useEffect(() => {
+    if (!user.isAdmin) {
+      navigate("/");
+    }
     const fetchReports = async () => {
       const reports = await getReports();
       setReports(reports);
