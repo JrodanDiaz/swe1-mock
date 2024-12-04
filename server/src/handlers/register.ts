@@ -15,7 +15,7 @@ export const registerHandler = async (req: Request, res: Response) => {
 
   const userCreated = await createUser(validBody.data)
   if(!userCreated) {
-    res.status(409).send("User already exists")
+    res.status(409).json({errorMessage: "Error: User Already Exists"})
     return
   }
   const jwt = createJwt(validBody.data.username);

@@ -23,7 +23,7 @@ export const loginUser = async (user: UserCredentials): Promise<{token: string, 
   return {token: userData.data.authToken}
 };
 
-export async function registerUser(user: UserCredentials) {
+export async function registerUser(user: UserCredentials): Promise<{token: string, errorMessage?: string}> {
   
   const response = await fetch(`http://localhost:3000/register`, {
     method: "POST",
@@ -33,16 +33,20 @@ export async function registerUser(user: UserCredentials) {
     body: JSON.stringify(user),
   });
 
-  if (response.status === 409) throw new Error("User already exists")
-  if (!response.ok) throw new Error("Internal Server Error")
-
+  
   const tokenData = await response.json()
   const parsedToken = tokenResponseSchema.safeParse(tokenData)
-
-  if(!parsedToken.success) throw new Error("Failed to parse JSON")
-  if("errorMessage" in parsedToken.data) throw new Error(parsedToken.data.errorMessage)
-
-  return parsedToken.data.authToken
+  
+  if(!parsedToken.success) {
+    return {token: "", errorMessage: "Internal Server Error"}
+  }
+  if("errorMessage" in parsedToken.data) {
+    return {token: "", errorMessage: parsedToken.data.errorMessage}
+  }
+  
+  if (!response.ok) throw new Error("Internal Server Error")
+  // return parsedToken.data.authToken
+  return {token: parsedToken.data.authToken}
 }
 
 export const getReports = async (): Promise<undefined | DB_REPORTS_ROW[]> => {

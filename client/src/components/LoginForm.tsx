@@ -37,9 +37,13 @@ export default function LoginForm() {
     console.log("Attempting register");
     e.preventDefault();
     registerUser({ username: username, password: password })
-      .then((token) => {
-        console.log(`Succesfully registered user: ${token}`);
-        setJWT(token, username);
+      .then((result) => {
+        if (result.errorMessage) {
+          setErrorMessage(result.errorMessage);
+          return;
+        }
+        console.log(`Succesfully registered user: ${result.token}`);
+        setJWT(result.token, username);
         updateUserContext({ username: username, isAdmin: false });
       })
       .catch((err) => {
