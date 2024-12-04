@@ -104,13 +104,14 @@ export const getUserIdFromUsername = async (
   return res.rows[0].id as string;
 };
 
-export const validateUser = async (user: UserCredentials): Promise<boolean> => {
+export const validateUser = async (user: UserCredentials): Promise<{authorized: boolean, banned: boolean}> => {
   console.log(`validateUser, user = ${JSON.stringify(user)}`)
-  const users: QueryResult<DB_USERS_ROW> = await pg_pool.query("SELECT passhash FROM users where username = $1", [user.username])
+  const users: QueryResult<DB_USERS_ROW> = await pg_pool.query("SELECT * FROM users where username = $1", [user.username])
   if(users.rows.length === 0) {
-    return false
+    return {authorized: false, banned: false}
   }
-  return users.rows[0].passhash === user.password
+  
+  return {authorized: users.rows[0].passhash === user.password, banned: users.rows[0].banned === true}
 }
 
 // export const createTable = async () => {

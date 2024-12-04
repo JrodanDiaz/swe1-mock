@@ -3,24 +3,29 @@
 INSERT INTO 
     users (
         username,
-        passhash
+        passhash,
+        banned
     ) 
 VALUES
     (
         'jordan',
-        'Shrekt123'
+        'jordan',
+        FALSE
     ),
     (
         'admin',
-        'admin'
+        'admin',
+        FALSE
     ),
     (
-        'bourbon',
-        'Necromancy'
+        'lebron',
+        'lebron',
+        FALSE
     ),
     (
-        'darklordpge',
-        'soaked-in-honey'
+        'pge',
+        'pge',
+        TRUE
     );
 
 INSERT INTO
@@ -45,5 +50,5 @@ VALUES
     );
 
 \echo 'finished seeding db GOD'
--- SELECT * FROM users
-SELECT * FROM reports
+SELECT * FROM users
+-- SELECT * FROM reports

@@ -8,6 +8,7 @@ export default function AdminPage() {
   const username = getUsername();
   const navigate = useNavigate();
   const [reports, setReports] = useState<DB_REPORTS_ROW[] | undefined>(undefined);
+  const [displayBan, setDisplayBan] = useState<number>(-1);
 
   const handleAction = async (action: boolean, jobUrl: string) => {
     if (!action) {
@@ -49,14 +50,55 @@ export default function AdminPage() {
         <h1 className="text-6xl">ADMIN PAGE</h1>
         {reports === undefined && <p className=" text-xl">No active reports!</p>}
         {reports &&
-          reports.map((report) => (
-            <div className=" border-2 p-4 border-main-dblue rounded-lg" key={report.id}>
-              <p>Report ID: {report.id}</p>
-              <p>Job Url: {report.job_url}</p>
-              <p>Report Type: {report.report_type}</p>
-              <p>Report Reason: {report.report_reason}</p>
-              <p>Submitted by: {report.reporter}</p>
-              <div className="flex justify-between">
+          reports.map((report, index) => (
+            <div className=" border-2 p-4 border-main-dblue rounded-lg w-1/3" key={report.id}>
+              <p>
+                <span className="font-bold">Report ID:</span> {report.id}
+              </p>
+              <p>
+                <span className="font-semibold">Job Url:</span> {report.job_url}
+              </p>
+              <p>
+                <span className="font-semibold">Report Type:</span> {report.report_type}
+              </p>
+              <p>
+                <span className="font-semibold">Report Reason:</span> {report.report_reason}
+              </p>
+              <p>
+                <span className="font-semibold">Submitted by: </span>
+                <span
+                  onClick={() => setDisplayBan(index)}
+                  className=" font-semibold text-main-dblue cursor-pointer"
+                >
+                  {report.reporter}
+                </span>
+              </p>
+              {displayBan === index ? (
+                <div className=" flex justify-between">
+                  <button className="text-xl text-orange-500">
+                    Ban User {report.reporter}?
+                  </button>
+                  <button className="text-xl text-red-700" onClick={() => setDisplayBan(-1)}>
+                    Cancel
+                  </button>
+                </div>
+              ) : (
+                <div className="flex justify-between">
+                  <button
+                    onClick={() => handleAction(false, report.job_url)}
+                    className="text-xl text-green-700"
+                  >
+                    Flag as Suspicious
+                  </button>
+                  <button
+                    onClick={() => handleAction(false, report.job_url)}
+                    className="text-xl text-red-700"
+                  >
+                    Ignore
+                  </button>
+                </div>
+              )}
+              {/* <div className="flex justify-between">
                 <button
                   onClick={() => handleAction(false, report.job_url)}
                   className="text-xl text-green-700"
@@ -67,9 +109,9 @@ export default function AdminPage() {
                   onClick={() => handleAction(false, report.job_url)}
                   className="text-xl text-red-700"
                 >
-                  Reject
+                  Ignore
                 </button>
-              </div>
+              </div> */}
             </div>
           ))}
       </div>

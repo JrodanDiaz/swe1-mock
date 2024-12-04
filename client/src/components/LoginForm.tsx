@@ -9,6 +9,7 @@ import { useSetUser } from "./UserContext";
 export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [registerMode, setRegisterMode] = useState(false);
   const updateUserContext = useSetUser();
   const navigate = useNavigate();
@@ -18,9 +19,12 @@ export default function LoginForm() {
 
     e.preventDefault();
     loginUser({ username: username, password: password })
-      .then((token) => {
-        console.log(`Succesfully logged in user: ${token}`);
-        setJWT(token, username);
+      .then((result) => {
+        if (result.errorMessage) {
+          setErrorMessage(result.errorMessage);
+          return;
+        }
+        setJWT(result.token, username);
         updateUserContext({ username: username, isAdmin: username === "admin" });
         navigate("/admin");
       })
@@ -89,6 +93,7 @@ export default function LoginForm() {
   return (
     <>
       <div className="flex flex-col justify-center items-center gap-4 border-4 rounded-xl p-6 border-main-blue w-1/3">
+        {errorMessage && <p className="text-xl text-red-700">{errorMessage}</p>}
         <DefaultProfilePic height={200} width={200} />
         {registerMode ? registerForm() : loginForm()}
         <button

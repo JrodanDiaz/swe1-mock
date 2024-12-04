@@ -10,7 +10,8 @@ export type ErrorMessage = {
 export type DB_USERS_ROW = {
     id: number,
     username: string,
-    passhash: string
+    passhash: string,
+    banned: boolean
 }
 
 export type DB_REPORTS_ROW = {

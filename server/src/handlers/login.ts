@@ -7,20 +7,20 @@ import { isLoggedIn } from "../auth/utils";
 export const loginHandler = async (req: Request, res: Response) => {
     const {body} = req
     
-    // if(isLoggedIn(req)) {
-    //     res.sendStatus(307)
-    //     return
-    // }
-    
     const parsedBody = userCredentialsSchema.safeParse(body)
     if(!parsedBody.success || parsedBody.error) {
         res.status(400).send("Invalid JSON request")
         return
     }
 
-    const loginSuccess = await validateUser(parsedBody.data)
-    if(!loginSuccess){
+    const {authorized, banned} = await validateUser(parsedBody.data)
+    if(!authorized){
         res.status(401).send("Invalid credentials")
+        return
+    }
+
+    if(banned) {
+        res.status(400).json({errorMessage: "User is banned"});
         return
     }
     
