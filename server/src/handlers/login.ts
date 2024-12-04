@@ -3,15 +3,14 @@ import { authCookiesSchema, userCredentialsSchema } from "../schemas";
 import { validateUser } from "../data/queries";
 import { createJwt, jwtCookieOptions } from "../auth/jwt";
 import { isLoggedIn } from "../auth/utils";
-import { log } from "console";
 
 export const loginHandler = async (req: Request, res: Response) => {
     const {body} = req
     
-    if(isLoggedIn(req)) {
-        res.sendStatus(307)
-        return
-    }
+    // if(isLoggedIn(req)) {
+    //     res.sendStatus(307)
+    //     return
+    // }
     
     const parsedBody = userCredentialsSchema.safeParse(body)
     if(!parsedBody.success || parsedBody.error) {

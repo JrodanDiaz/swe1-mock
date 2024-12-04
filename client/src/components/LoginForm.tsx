@@ -3,7 +3,7 @@ import Input from "./Input";
 import Button from "./Button";
 import DefaultProfilePic from "./DefaultProfilePic";
 import { Link, useNavigate } from "react-router-dom";
-import { getReports, loginUser } from "../utilts";
+import { getJWT, getReports, loginUser, setJWT } from "../utilts";
 
 export default function LoginForm() {
   const [username, setUsername] = useState("");
@@ -11,10 +11,13 @@ export default function LoginForm() {
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
+    console.log("HandleSubmit activated");
+
     e.preventDefault();
     loginUser({ username: username, password: password })
-      .then((user) => {
-        console.log(`Succesfully logged in user: ${user}`);
+      .then((token) => {
+        console.log(`Succesfully logged in user: ${token}`);
+        setJWT(token);
         navigate("/admin");
       })
       .catch((err) => {

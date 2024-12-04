@@ -1,4 +1,4 @@
-import { implicitLoginSchema, reportsSchema } from "./schemas";
+import { implicitLoginSchema, reportsSchema, tokenResponseSchema } from "./schemas";
 import { DB_REPORTS_ROW, Report, UserCredentials } from "./types";
 
 export const loginUser = async (user: UserCredentials) => {
@@ -18,6 +18,28 @@ export const loginUser = async (user: UserCredentials) => {
   if ("errorMessage" in userData.data) throw new Error(userData.data.errorMessage);
   return userData.data.authToken;
 };
+
+export async function registerUser(user: UserCredentials) {
+  
+  const response = await fetch(`http://localhost:3000/register`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
+  });
+
+  if (response.status === 409) throw new Error("User already exists")
+  if (!response.ok) throw new Error("Internal Server Error")
+
+  const tokenData = await response.json()
+  const parsedToken = tokenResponseSchema.safeParse(tokenData)
+
+  if(!parsedToken.success) throw new Error("Failed to parse JSON")
+  if("errorMessage" in parsedToken.data) throw new Error(parsedToken.data.errorMessage)
+
+  return parsedToken.data.authToken
+}
 
 export const getReports = async (): Promise<undefined | DB_REPORTS_ROW[]> => {
   try {
@@ -90,4 +112,12 @@ export const validateURL = (url: string): boolean => {
   const regex = /^https:\/\/www\.linkedin\.com\/jobs\/view\//;
 
   return regex.test(url)
+}
+
+export const setJWT = (jwt: string) => {
+  localStorage.setItem("token", jwt)
+}
+
+export const getJWT = (): string | null => {
+  return localStorage.getItem("token")
 }

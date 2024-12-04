@@ -110,7 +110,7 @@ export const validateUser = async (user: UserCredentials): Promise<boolean> => {
   if(users.rows.length === 0) {
     return false
   }
-  return true
+  return users.rows[0].passhash === user.password
 }
 
 // export const createTable = async () => {
