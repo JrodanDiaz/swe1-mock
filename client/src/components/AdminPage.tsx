@@ -17,7 +17,7 @@ export default function AdminPage() {
       const timeout = new Promise(() =>
         setTimeout(() => {
           location.reload(); // Force refresh after 3 seconds
-        }, 800)
+        }, 400)
       );
 
       Promise.race([deleteReport(jobUrl), timeout])
