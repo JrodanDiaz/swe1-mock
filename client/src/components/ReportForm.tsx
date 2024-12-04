@@ -1,4 +1,4 @@
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import BlueBox from "./BlueBox";
 import Input from "./Input";
 import { Report } from "../types";
@@ -11,6 +11,7 @@ interface Props {
   useOther?: boolean;
   setReport: React.Dispatch<SetStateAction<Report>>;
   field: field;
+  clearSignal?: number;
 }
 export default function ReportForm({
   question,
@@ -18,6 +19,7 @@ export default function ReportForm({
   useOther = false,
   setReport,
   field,
+  clearSignal,
 }: Props) {
   const [selectedOption, setSelectedOption] = useState("");
   const [response, setResponse] = useState("");
@@ -29,7 +31,6 @@ export default function ReportForm({
   };
 
   const onOtherReasonChange = (reason: string) => {
-    // setSelectedOption(reason);
     setOtherType(reason);
     setResponse(reason);
     setReport((prev) => ({ ...prev, report_type: reason }));
@@ -47,6 +48,12 @@ export default function ReportForm({
 
   const notOther = (option: string) => selectedOption === option;
   const notOtherOptions = ["Ghost Job", "Old/Deprecated Listing", "Scam Job"];
+
+  useEffect(() => {
+    setSelectedOption("");
+    setResponse("");
+    setOtherType("");
+  }, [clearSignal]);
 
   if (!options) {
     return (

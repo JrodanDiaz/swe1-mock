@@ -23,6 +23,7 @@ export default function ReportPage() {
   const [report, setReport] = useState<Report>(defaultReport);
   const [reportSuccess, setReportSuccess] = useState<boolean | undefined>(undefined);
   const [message, setMessage] = useState("");
+  const [clearSignal, setClearSignal] = useState(0);
 
   useEffect(() => {
     if (!jwt && !username) {
@@ -60,6 +61,7 @@ export default function ReportPage() {
       setReportSuccess(false);
       setMessage("Error while submitting report");
     }
+    setClearSignal((prev) => prev + 1);
   };
 
   return (
@@ -82,9 +84,20 @@ export default function ReportPage() {
             useOther={true}
             setReport={setReport}
             field="report_type"
+            clearSignal={clearSignal}
           />
-          <ReportForm question={question2} setReport={setReport} field="report_reason" />
-          <ReportForm question={question3} setReport={setReport} field="job_url" />
+          <ReportForm
+            question={question2}
+            setReport={setReport}
+            field="report_reason"
+            clearSignal={clearSignal}
+          />
+          <ReportForm
+            question={question3}
+            setReport={setReport}
+            field="job_url"
+            clearSignal={clearSignal}
+          />
           <button
             className="border-2 border-black bg-main-lblue hover:bg-main-blue px-3 py-5 rounded-lg mb-8"
             type="submit"

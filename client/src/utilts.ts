@@ -11,9 +11,7 @@ export const loginUser = async (user: UserCredentials): Promise<{token: string, 
     body: JSON.stringify(user),
     credentials: "include",
   });
-  if (!response.ok) {
-    console.log("error occured while logging in");
-  }
+  
   const userData = implicitLoginSchema.safeParse(await response.json());
   if (!userData.success) {
     return {token: "", errorMessage: "Internal Server Error"}
@@ -21,6 +19,11 @@ export const loginUser = async (user: UserCredentials): Promise<{token: string, 
   if ("errorMessage" in userData.data) {
     return {token: "", errorMessage: userData.data.errorMessage}
   }
+
+  if (!response.ok) {
+    return {token: "", errorMessage: "Internal Server Error"}
+  }
+  
   return {token: userData.data.authToken}
 };
 

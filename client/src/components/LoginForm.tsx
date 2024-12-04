@@ -30,6 +30,7 @@ export default function LoginForm() {
       })
       .catch((err) => {
         console.log(`Error: ${err}`);
+        setErrorMessage("Internal Server Error");
       });
   };
 

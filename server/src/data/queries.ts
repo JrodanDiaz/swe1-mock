@@ -83,8 +83,8 @@ export const userExists = async (username: string): Promise<boolean> => {
 export const createUser = async (user: UserCredentials): Promise<boolean> => {
   try {
     await pg_pool.query(
-      "INSERT INTO users (username, passhash) VALUES ($1, $2)",
-      [user.username, user.password]
+      "INSERT INTO users (username, passhash, banned) VALUES ($1, $2, $3)",
+      [user.username, user.password, false]
     );
     return true
   } catch(err) {

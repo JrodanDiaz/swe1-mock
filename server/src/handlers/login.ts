@@ -9,13 +9,13 @@ export const loginHandler = async (req: Request, res: Response) => {
     
     const parsedBody = userCredentialsSchema.safeParse(body)
     if(!parsedBody.success || parsedBody.error) {
-        res.status(400).send("Invalid JSON request")
+        res.status(400).json({errorMessage: "Invalid Request"})
         return
     }
 
     const {authorized, banned} = await validateUser(parsedBody.data)
     if(!authorized){
-        res.status(401).send("Invalid credentials")
+        res.status(401).json({errorMessage: "Incorrect Username or Password"})
         return
     }
 
