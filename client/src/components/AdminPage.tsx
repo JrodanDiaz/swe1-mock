@@ -64,7 +64,12 @@ export default function AdminPage() {
               <p>Report Type: {report.report_type}</p>
               <p>Report Reason: {report.report_reason}</p>
               <div className="flex justify-between">
-                <button className="text-xl text-green-700">Accept</button>
+                <button
+                  onClick={() => handleAction(false, report.job_url)}
+                  className="text-xl text-green-700"
+                >
+                  Flag as Suspicious
+                </button>
                 <button
                   onClick={() => handleAction(false, report.job_url)}
                   className="text-xl text-red-700"

@@ -68,7 +68,10 @@ export default function ReportPage() {
           />
           <ReportForm question={question2} setReport={setReport} field="report_reason" />
           <ReportForm question={question3} setReport={setReport} field="job_url" />
-          <button className="border-2 border-main-dblue px-3 py-5 rounded-lg" type="submit">
+          <button
+            className="border-2 border-black bg-main-lblue hover:bg-main-blue px-3 py-5 rounded-lg mb-8"
+            type="submit"
+          >
             Submit
           </button>
         </form>

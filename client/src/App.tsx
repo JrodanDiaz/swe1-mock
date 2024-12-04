@@ -11,11 +11,26 @@ function App() {
     <>
       <div className="flex flex-col justify-center items-center gap-4">
         <Navbar />
-        <div>{JSON.stringify(user)}</div>
         {jwt === null && <LoginForm />}
-        {jwt && <p className="text-3xl">Currently Logged In</p>}
-        <Link to={"/report"}>To Report</Link>
-        {user.isAdmin && <Link to={"/admin"}>To Admin</Link>}
+        {jwt && (
+          <p className="text-3xl">
+            Currently Logged In as <span className=" font-semibold">{user.username}</span>
+          </p>
+        )}
+        <Link
+          to={"/report"}
+          className="border-2 border-black bg-main-lblue hover:bg-main-blue rounded-full w-40 text-center px-5 py-3"
+        >
+          To Report
+        </Link>
+        {user.isAdmin && (
+          <Link
+            to={"/admin"}
+            className="border-2 border-black bg-main-lblue hover:bg-main-blue rounded-full w-40 text-center px-5 py-3"
+          >
+            To Admin
+          </Link>
+        )}
       </div>
     </>
   );
