@@ -1,29 +1,30 @@
 import express from "express";
-import cookieParser from 'cookie-parser'
-import cors from "cors"
+import cookieParser from "cookie-parser";
+import cors from "cors";
 import { registerHandler } from "./handlers/register";
-import { banUserHandler, clearUsersHandler, getUsersHandler } from "./handlers/userHandler";
+import { banUserHandler, getUsersHandler } from "./handlers/userHandler";
 import { loginHandler } from "./handlers/login";
-import dotenv from "dotenv"
-import { implicitLoginHandler } from "./handlers/implicit_login";
+import dotenv from "dotenv";
 import { getTokenHandler } from "./auth/utils";
-import { deleteReportHandler, getReportsHandler, submitReportHandler } from "./handlers/reportsHandler";
+import {
+  deleteReportHandler,
+  getReportsHandler,
+  submitReportHandler,
+} from "./handlers/reportsHandler";
 
-dotenv.config()
+dotenv.config();
 const app = express();
 const port = 3000;
 
 var corsOptions = {
-  origin: 'http://localhost:5173',
-  methods: ['GET', 'POST', 'DELETE'],
+  origin: "http://localhost:5173",
+  methods: ["GET", "POST", "DELETE"],
   credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization']
-}
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
 
-
-
-app.options('*', cors(corsOptions));
-app.use(cors(corsOptions))
+app.options("*", cors(corsOptions));
+app.use(cors(corsOptions));
 
 // app.use((req, res, next) => {
 //   console.log("Request Headers: ", req.headers);
@@ -32,32 +33,29 @@ app.use(cors(corsOptions))
 //   next();
 // });
 
-app.use(express.json())
-app.use(cookieParser())
+app.use(express.json());
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
   console.log("GET request from home route received");
   res.send("Express + TypeScript Server hello");
 });
 
-app.get("/auth/getToken", getTokenHandler)
+app.get("/auth/getToken", getTokenHandler);
 
-app.get("/users", getUsersHandler)
-app.post("/users/ban", banUserHandler)
+app.get("/users", getUsersHandler);
+app.post("/users/ban", banUserHandler);
 
-app.get("/reports", getReportsHandler)
-app.post("/reports", submitReportHandler)
-app.delete("/reports", deleteReportHandler)
+app.get("/reports", getReportsHandler);
+app.post("/reports", submitReportHandler);
+app.delete("/reports", deleteReportHandler);
 
-app.post("/register", registerHandler)
-app.post("/login", loginHandler)
-// app.get("/implicit_login", implicitLoginHandler)
-
+app.post("/register", registerHandler);
+app.post("/login", loginHandler);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
   // console.log(`Testing ENV: ${process.env.SPOTIFY_CLIENT_ID}`);
-  
 });
 
 /* 

@@ -1,4 +1,3 @@
-import { Meta } from "react-router-dom";
 import { implicitLoginSchema, reportsSchema, tokenResponseSchema } from "./schemas";
 import { DB_REPORTS_ROW, Report, UserCredentials } from "./types";
 
@@ -49,7 +48,6 @@ export async function registerUser(user: UserCredentials): Promise<{token: strin
   }
   
   if (!response.ok) throw new Error("Internal Server Error")
-  // return parsedToken.data.authToken
   return {token: parsedToken.data.authToken}
 }
 
